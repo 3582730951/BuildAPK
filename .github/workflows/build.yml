@@ -37,7 +37,7 @@ jobs:
     - name: Build APK with Gradle
       run: |
         git clone https://github.com/3582730951/MiKernelApp.git MiKernelApp
-        chmod 777 MiKernelApp
+        chmod 777 -R MiKernelApp
         ./MiKernelApp/gradlew assembleRelease
 
     - name: Upload APK
