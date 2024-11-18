@@ -17,33 +17,30 @@ jobs:
     - uses: actions/checkout@v2
       name: Checkout code
 
-    # 设置 JDK 17
-    - name: Set up JDK 17
-      uses: actions/setup-java@v2
+    - name: Set up JDK 11
+      uses: actions/setup-java@v1
       with:
-        java-version: '17'  # 使用 Java 17
-        distribution: 'temurin'  # 使用 Eclipse Temurin 发行版
+        java-version: '11'
 
-    # 手动安装 Android SDK
-    - name: Install Android SDK
+    # 安装 Android SDK 和 NDK
+    - name: Install Android SDK and NDK
       run: |
         sudo apt-get update
         sudo apt-get install -y wget unzip
+        # 下载并解压 Android SDK 工具
         wget https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip
         unzip commandlinetools-linux-7583922_latest.zip -d $HOME/android-sdk
-        echo "y" | $HOME/android-sdk/cmdline-tools/bin/sdkmanager --sdk_root=$HOME/android-sdk "platform-tools" "build-tools;30.0.3" "platforms;android-29"
+        # 安装 Android SDK (API 35) 和 Build Tools 35.0.0
+        echo "y" | $HOME/android-sdk/cmdline-tools/bin/sdkmanager --sdk_root=$HOME/android-sdk "platform-tools" "build-tools;35.0.0" "platforms;android-35"
+        # 安装 NDK 版本 27.0.12077973
+        echo "y" | $HOME/android-sdk/cmdline-tools/bin/sdkmanager --sdk_root=$HOME/android-sdk "ndk;27.0.12077973"
         export ANDROID_HOME=$HOME/android-sdk
         export PATH=$ANDROID_HOME/cmdline-tools/bin:$ANDROID_HOME/platform-tools:$PATH
 
-    - name: Clone MiKernelApp repository
+    - name: Build APK with Gradle
       run: |
         git clone https://github.com/3582730951/MiKernelApp.git MiKernelApp
         chmod -R 777 MiKernelApp
-        cd MiKernelApp
-        chmod +x gradlew
-
-    - name: Build APK with Gradle
-      run: |
         cd MiKernelApp
         ./gradlew assembleRelease
 
