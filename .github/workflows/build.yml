@@ -41,14 +41,15 @@ jobs:
         export ANDROID_HOME=$HOME/android-sdk
         export PATH=$ANDROID_HOME/cmdline-tools/bin:$ANDROID_HOME/platform-tools:$PATH
         echo "org.gradle.jvmargs=-Xmx4g" >> gradle.properties
-
+        
     - name: Build APK with Gradle
       run: |
         git clone https://github.com/3582730951/MiKernelApp.git MiKernelApp
         chmod -R 777 MiKernelApp
         cd MiKernelApp
+        kotlin.daemon.jvm.options=-Xmx4g
         ./gradlew dependencies
-        ./gradlew assembleRelease --stacktrace
+        ./gradlew assembleRelease --stacktrace --info
 
     - name: Upload APK
       uses: actions/upload-artifact@v3
