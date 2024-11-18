@@ -21,13 +21,17 @@ jobs:
 
       - name: Download and set up Android SDK
         run: |
-          # 设置 Android SDK 路径
+          # 创建 SDK 目录
           mkdir -p $HOME/Android/Sdk/cmdline-tools
 
           # 下载并解压 Android SDK 命令行工具
           curl -O https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip
           unzip commandlinetools-linux-7583922_latest.zip -d $HOME/Android/Sdk/cmdline-tools
           rm commandlinetools-linux-7583922_latest.zip
+
+          # 确保解压目录正确
+          mv $HOME/Android/Sdk/cmdline-tools/cmdline-tools/* $HOME/Android/Sdk/cmdline-tools/
+          rmdir $HOME/Android/Sdk/cmdline-tools/cmdline-tools
 
           # 设置 ANDROID_HOME 环境变量
           echo "ANDROID_HOME=$HOME/Android/Sdk" >> $GITHUB_ENV
