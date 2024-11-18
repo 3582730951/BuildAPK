@@ -36,13 +36,13 @@ jobs:
           ndk: '25.1.8937393'  # 如果项目需要 NDK，请指定版本
           cache: gradle
 
-      # Step 4: 显式设置 ANDROID_HOME 环境变量
-      - name: Set ANDROID_HOME environment variable
-        run: echo "ANDROID_HOME=${{ steps.android-sdk.outputs.android-home }}" >> $GITHUB_ENV
-
-      # Step 5: 为 gradlew 添加执行权限
+      # Step 4: 为 gradlew 添加执行权限
       - name: Give execute permission to gradlew
         run: chmod +x ./gradlew
+
+      # Step 5: 显式设置 ANDROID_HOME 环境变量
+      - name: Set ANDROID_HOME environment variable
+        run: echo "ANDROID_HOME=${{ steps.android-sdk.outputs.android-home }}" >> $GITHUB_ENV
 
       # Step 6: 构建 APK
       - name: Build APK
