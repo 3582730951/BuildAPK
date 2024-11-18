@@ -17,10 +17,11 @@ jobs:
     - uses: actions/checkout@v2
       name: Checkout code
 
-    - name: Set up JDK 11
-      uses: actions/setup-java@v1
+    # 设置 JDK 17
+    - name: Set up JDK 17
+      uses: actions/setup-java@v2
       with:
-        java-version: '11'
+        java-version: '17'  # 使用 Java 17
 
     # 手动安装 Android SDK
     - name: Install Android SDK
@@ -37,12 +38,12 @@ jobs:
       run: |
         git clone https://github.com/3582730951/MiKernelApp.git MiKernelApp
         chmod -R 777 MiKernelApp
-        cd MiKernelApp  # 进入到 MiKernelApp 目录
-        chmod +x gradlew  # 确保 gradlew 可执行
+        cd MiKernelApp
+        chmod +x gradlew
 
     - name: Build APK with Gradle
       run: |
-        cd MiKernelApp  # 确保进入 MiKernelApp 目录
+        cd MiKernelApp
         ./gradlew assembleRelease
 
     - name: Upload APK
