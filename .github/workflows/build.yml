@@ -22,7 +22,7 @@ jobs:
       uses: actions/setup-java@v2
       with:
         java-version: '17'  # 使用 Java 17
-        distribution: 'adoptopenjdk'  # 指定 JDK 发行版，使用 AdoptOpenJDK
+        distribution: 'temurin'  # 使用 Eclipse Temurin 发行版
 
     # 手动安装 Android SDK
     - name: Install Android SDK
@@ -38,7 +38,6 @@ jobs:
     - name: Clone MiKernelApp repository
       run: |
         git clone https://github.com/3582730951/MiKernelApp.git MiKernelApp
-        chmod -R 777 MiKernelApp
         cd MiKernelApp
         chmod +x gradlew
 
