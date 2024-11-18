@@ -40,12 +40,14 @@ jobs:
         echo "y" | $HOME/android-sdk/cmdline-tools/bin/sdkmanager --sdk_root=$HOME/android-sdk "platform-tools" "build-tools;30.0.3" "platforms;android-29"
         export ANDROID_HOME=$HOME/android-sdk
         export PATH=$ANDROID_HOME/cmdline-tools/bin:$ANDROID_HOME/platform-tools:$PATH
+        echo "org.gradle.jvmargs=-Xmx4g" >> gradle.properties
 
     - name: Build APK with Gradle
       run: |
         git clone https://github.com/3582730951/MiKernelApp.git MiKernelApp
         chmod -R 777 MiKernelApp
         cd MiKernelApp
+        ./gradlew dependencies
         ./gradlew assembleRelease --stacktrace
 
     - name: Upload APK
