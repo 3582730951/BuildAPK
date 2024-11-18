@@ -17,10 +17,12 @@ jobs:
     - uses: actions/checkout@v2
       name: Checkout code
 
-    - name: Set up JDK 11
-      uses: actions/setup-java@v1
+    # 设置 JDK 17 使用 Eclipse Temurin 发行版
+    - name: Set up JDK 17
+      uses: actions/setup-java@v2
       with:
-        java-version: '11'
+        java-version: '17'  # 使用 Java 17
+        distribution: 'temurin'  # 使用 Eclipse Temurin 发行版
 
     # 安装 Android SDK 和 NDK
     - name: Install Android SDK and NDK
