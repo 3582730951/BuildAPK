@@ -1,0 +1,48 @@
+name: Build APK
+
+on:
+  workflow_dispatch:  # 手动触发
+    inputs:
+      buildType:
+        description: '选择构建类型 (Release/Debug)'
+        required: true
+        default: 'Release'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # 使用最新的 Ubuntu Runner
+
+    steps:
+      # Step 1: 检出代码
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: 设置 Java 环境
+      - name: Setup Java JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'  # 使用适合 Android 的 Java 版本
+
+      # Step 3: 设置 Android SDK
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+        with:
+          api-level: 33  # 根据项目的最低 SDK 版本调整
+          build-tools: '33.0.2'
+          ndk: '25.1.8937393'  # 如果项目需要 NDK，请指定版本
+          cache: gradle
+
+      # Step 4: 构建 APK
+      - name: Build APK
+        run: |
+          ./gradlew clean assemble${{ github.event.inputs.buildType }}
+        env:
+          ANDROID_HOME: ${{ steps.android-sdk.outputs.android-home }}
+
+      # Step 5: 保存 APK 构建结果
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: MiKernelApp-${{ github.event.inputs.buildType }}-APK
+          path: app/build/outputs/apk/${{ github.event.inputs.buildType | toLowerCase() }}/*.apk
