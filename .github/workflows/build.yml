@@ -38,16 +38,20 @@ jobs:
 
       # Step 4: 为 gradlew 添加执行权限
       - name: Give execute permission to gradlew
-        run: chmod 777 ./gradlew
+        run: chmod +x ./gradlew
 
-      # Step 5: 构建 APK
+      # Step 5: 设置 ANDROID_HOME 环境变量
+      - name: Set ANDROID_HOME environment variable
+        run: echo "ANDROID_HOME=${{ steps.android-sdk.outputs.android-home }}" >> $GITHUB_ENV
+
+      # Step 6: 构建 APK
       - name: Build APK
         run: |
           ./gradlew clean assemble${{ github.event.inputs.buildType }}
         env:
           ANDROID_HOME: ${{ steps.android-sdk.outputs.android-home }}
 
-      # Step 6: 保存 APK 构建结果
+      # Step 7: 保存 APK 构建结果
       - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
