@@ -29,9 +29,7 @@ jobs:
         sudo apt-get install -y wget unzip
         wget https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip
         unzip commandlinetools-linux-7583922_latest.zip -d $HOME/android-sdk
-        # 这里修正解压后路径问题，确保 sdkmanager 可以找到
-        mkdir -p $HOME/android-sdk/cmdline-tools
-        mv $HOME/android-sdk/tools $HOME/android-sdk/cmdline-tools
+        # 直接使用 cmdline-tools 目录，不需要移动
         echo "y" | $HOME/android-sdk/cmdline-tools/bin/sdkmanager --sdk_root=$HOME/android-sdk "platform-tools" "build-tools;30.0.3" "platforms;android-29"
         export ANDROID_HOME=$HOME/android-sdk
         export PATH=$ANDROID_HOME/cmdline-tools/bin:$ANDROID_HOME/platform-tools:$PATH
