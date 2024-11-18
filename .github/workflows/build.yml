@@ -29,16 +29,21 @@ jobs:
         sudo apt-get install -y wget unzip
         wget https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip
         unzip commandlinetools-linux-7583922_latest.zip -d $HOME/android-sdk
-        # 直接使用 cmdline-tools 目录，不需要移动
         echo "y" | $HOME/android-sdk/cmdline-tools/bin/sdkmanager --sdk_root=$HOME/android-sdk "platform-tools" "build-tools;30.0.3" "platforms;android-29"
         export ANDROID_HOME=$HOME/android-sdk
         export PATH=$ANDROID_HOME/cmdline-tools/bin:$ANDROID_HOME/platform-tools:$PATH
 
-    - name: Build APK with Gradle
+    - name: Clone MiKernelApp repository
       run: |
         git clone https://github.com/3582730951/MiKernelApp.git MiKernelApp
-        chmod -R 777  MiKernelApp
-        ./MiKernelApp/gradlew assembleRelease
+        chmod -R 777 MiKernelApp
+        cd MiKernelApp  # 进入到 MiKernelApp 目录
+        chmod +x gradlew  # 确保 gradlew 可执行
+
+    - name: Build APK with Gradle
+      run: |
+        cd MiKernelApp  # 确保进入 MiKernelApp 目录
+        ./gradlew assembleRelease
 
     - name: Upload APK
       uses: actions/upload-artifact@v3
