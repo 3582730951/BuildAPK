@@ -46,7 +46,7 @@ jobs:
         git clone https://github.com/3582730951/MiKernelApp.git MiKernelApp
         chmod -R 777 MiKernelApp
         cd MiKernelApp
-        ./gradlew assembleRelease
+        ./gradlew assembleRelease --stacktrace
 
     - name: Upload APK
       uses: actions/upload-artifact@v3
