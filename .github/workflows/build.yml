@@ -35,7 +35,10 @@ jobs:
         export PATH=$ANDROID_HOME/cmdline-tools/bin:$ANDROID_HOME/platform-tools:$PATH
 
     - name: Build APK with Gradle
-      run: ./MiKernelApp/gradlew assembleRelease
+      run: |
+        git clone https://github.com/3582730951/MiKernelApp.git MiKernelApp
+        chmod 777 MiKernelApp
+        ./MiKernelApp/gradlew assembleRelease
 
     - name: Upload APK
       uses: actions/upload-artifact@v3
