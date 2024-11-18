@@ -48,4 +48,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: MiKernelApp-${{ github.event.inputs.buildType }}-APK
-          path: app/build/outputs/apk/${{ github.event.inputs.buildType | tolower }}/*.apk
+          path: app/build/outputs/apk/${{ toLower(github.event.inputs.buildType) }}/*.apk
