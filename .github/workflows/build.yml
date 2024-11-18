@@ -36,14 +36,18 @@ jobs:
           ndk: '25.1.8937393'  # 如果项目需要 NDK，请指定版本
           cache: gradle
 
-      # Step 4: 构建 APK
+      # Step 4: 为 gradlew 添加执行权限
+      - name: Give execute permission to gradlew
+        run: chmod 777 ./gradlew
+
+      # Step 5: 构建 APK
       - name: Build APK
         run: |
           ./gradlew clean assemble${{ github.event.inputs.buildType }}
         env:
           ANDROID_HOME: ${{ steps.android-sdk.outputs.android-home }}
 
-      # Step 5: 保存 APK 构建结果
+      # Step 6: 保存 APK 构建结果
       - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
